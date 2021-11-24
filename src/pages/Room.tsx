@@ -4,21 +4,10 @@ import '../styles/room.scss';
 
 import { RoomCode } from '../components/RoomCode';
 import { useParams } from 'react-router-dom';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent,  useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
-
-
-
-type FirebaseQuestion = Record<string, {
-  author: {
-    name: string;
-    avatar: string;
-  }
-  content: string;
-  isAnswered: boolean;
-  isHighlighted: boolean;
-}>
+import { Question } from '../components/Question';
 
 
 type RoomParams = {
@@ -32,18 +21,7 @@ export function Room() {
 
   const roomId = params.id;
 
-  useEffect(() => {
-    const roomRef = database.ref(`rooms/${roomId}`);
-
-    roomRef.once('value', room => {
-      const databaseRoom = room.val();
-      const firebaseQuestion: FirebaseQuestions = databaseRoom.questions ?? {};
-
-      const parsedQuestions = Object.entries(firebaseQuestion)
-    })
-  }, [roomId]);
-
- async function handleSendQuestion (event: FormEvent){
+   async function handleSendQuestion (event: FormEvent){
    event.preventDefault();
     if (newQuestion.trim() === '') {
       return;
@@ -64,6 +42,8 @@ export function Room() {
     };
 
     await database.ref(`rooms/${roomId}/questions`).push(question);
+
+    setNewQuestion('');
  }
 
   return (
@@ -77,8 +57,8 @@ export function Room() {
 
       <main >
         <div className="room-title">
-          <h1>Sala React</h1>
-          <span>4 perguntas</span>
+          <h1>Sala {title}</h1>
+          { questions.length > 0 && <span>{questions.length} pergunta(s)</span> }
         </div>
 
         <form onSubmit={handleSendQuestion}>
@@ -100,6 +80,18 @@ export function Room() {
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
+
+         <div className="question-list">
+         {questions.map(question => {
+           return (
+             <Question
+             key={question.id}
+             content={question.content}
+             author={question.author}
+             />
+           );
+         })}
+         </div>
       </main>
     </div>
   )

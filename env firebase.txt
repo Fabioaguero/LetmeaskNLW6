@@ -1,0 +1,9 @@
+# Firebase
+
+REACT_APP_API_KEY="AIzaSyC8oQryKx9Zonwd5yDAiKQprlM3nac_FyM"
+REACT_APP_AUTH_DOMAIN="letmeask-aul.firebaseapp.com"
+REACT_APP_DATABASE_URL="https://letmeask-aul-default-rtdb.firebaseio.com"
+REACT_APP_PROJECT_ID ="letmeask-aul",
+REACT_APP_STORAGE_BUCKET="letmeask-aul.appspot.com"
+REACT_APP_MESSAGING_SENDER_ID="79927148675"
+REACT_APP_APP_ID="1:79927148675:web:450031838b274f55575bb6"
